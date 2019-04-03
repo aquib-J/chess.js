@@ -12,7 +12,7 @@ function InitFilesRanksBrd() {
     let file = FILES.FILE_A;
     let rank = RANKS.RANK_1;
     let sq = SQUARES.A1;
-    for (index = 0; index < BRD_SQ_NUM; i++) {
+    for (index = 0; index < BRD_SQ_NUM; index++) {
         FilesBrd[index] = SQUARES.OFFBOARD;
         RanksBrd[index] = SQUARES.OFFBOARD;
     }
@@ -25,15 +25,29 @@ function InitFilesRanksBrd() {
         }
     }
 
-    console.log("FileBoard[0]:" + FilesBrd[0] + "RanksBoard[0]:" + RanksBrd[0]);
+    // console.log("FileBoard[0]:" + FilesBrd[0] + "RanksBoard[0]:" + RanksBrd[0]);
 
+
+}
+
+// Chain of Exor generating the unique posKey
+function InitHashKeys() {
+    let index = 0;
+    for (index = 0; index < 14 * 120; ++index) {
+        PieceKeys[index] = RAND_32();
+    }
+    SideKey = RAND_32();
+    for (index = 0; index < 16; ++index) {
+        CastleKeys[index] = RAND_32();
+    }
 
 }
 
 
 
-
 function init() {
     console.log("init() called");
+    InitFilesRanksBrd();
+    InitHashKeys();
 
 }

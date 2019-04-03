@@ -81,7 +81,7 @@ let FilesBrd = new Array(BRD_SQ_NUM);
 let RanksBrd = new Array(BRD_SQ_NUM);
 
 function FR2SQ(f, r) {
-    returns((f + 21) + ((r) * 10));
+    return ((f + 21) + ((r) * 10));
 }
 //Empty:0 W(P N B R Q K) B(P N B R Q K)
 //all except pawn
@@ -101,3 +101,15 @@ let PieceKing = [BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOO
 let PieceRookQueen = [BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.FALSE];
 let PieceBishopQueen = [BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.FALSE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.FALSE, BOOL.TRUE, BOOL.FALSE];
 let PieceSlides = [BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE, BOOL.FALSE];
+
+
+//Keys for EXOR ing
+let PieceKeys = new Array(14 * 120);
+let SideKey;
+let CastleKeys = new Array(16);
+
+
+
+function RAND_32() {
+    return (Math.floor((Math.random() * 255) + 1) << 23) | (Math.floor((Math.random() * 255) + 1) << 23) | (Math.floor((Math.random() * 255) + 1) << 23) | Math.floor((Math.random() * 255) + 1);
+}
