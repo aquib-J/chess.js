@@ -37,8 +37,21 @@ import {
 } from './defs.js';
 
 
+//GUI part
 
 
+// let fenstr = document.getElementById('fenIn').value;
+
+// document.getElementById('SetFen').addEventListener('click', (e) => {
+//     e.preventDefault();
+
+//     console.log(`${fenstr}`);
+//     ParseFen(fenstr);
+//     PrintBoard();
+//     console.log('event working');
+
+// });
+///////////////////////////
 
 // Plain js for dom manipulation
 function setUpValues() {
@@ -62,14 +75,6 @@ document.addEventListener('DOMContentLoaded', setUpValues);
 
 
 
-document.getElementById('SetFen').addEventListener('onClick', (e) => {
-    let fenstr = document.getElementById('fenIn').value;
-    console.log(`${fenstr}`);
-    ParseFen(fenstr);
-    PrintBoard();
-    console.log('event working');
-
-});
 
 // intitializes both the files-120 squares and the ranks-120 squares
 //the first loops, sets all the squares to =100(OFFBOARD), 2nd loop fills it 
