@@ -1,6 +1,12 @@
+.top-heading {
+    text-align: center;
+    color: brown;
+}
+
 #FenInDiv {
+
     position: relative;
-    left: 60px;
+    left: 150px;
 
 }
 

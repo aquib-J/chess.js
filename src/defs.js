@@ -127,8 +127,13 @@
  let RkDir = [-1, -10, 1, 10];
  let BiDir = [-9, -11, 11, 9];
  let KiDir = [-1, -10, 1, 10, -9, -11, 11, 9];
+ let DirNum = [0, 0, 8, 4, 4, 8, 8, 0, 8, 4, 4, 8, 8]; // no of direction by piecetype. NIght has 8 direction, King and queen have 8 dir each
+ let PceDir = [0, 0, KnDir, BiDir, RkDir, KiDir, KiDir, 0, KnDir, BiDir, RkDir, KiDir, KiDir];
+ let LoopNonSlidePce = [PIECES.wN, PIECES.wK, 0, PIECES.bN, PIECES.bK, 0];
+ let LoopNonSlideIndex = [0, 3];
 
-
+ let LoopSlidePce = [PIECES.wB, PIECES.wR, PIECES.wQ, 0, PIECES.bB, PIECES.bR, PIECES.bQ, 0];
+ let LoopSlideIndex = [0, 4];
 
  //Keys for EXOR ing
  let PieceKeys = new Array(14 * 120);
@@ -195,7 +200,10 @@
  let NOMOVE = 0;
 
 
-
+ function SQOFFBOARD(sq) {
+     if (FilesBrd[sq] == SQUARES.OFFBOARD) return BOOL.TRUE;
+     return BOOL.FALSE;
+ }
 
 
 
@@ -277,5 +285,25 @@
      PieceBig,
      PieceMaj,
      PieceMin,
+     SQOFFBOARD,
 
- };
+     DirNum,
+     PceDir,
+     LoopNonSlidePce,
+     LoopNonSlideIndex,
+     LoopSlidePce,
+     LoopSlideIndex,
+     MFLAGEP,
+     MFLAGPS,
+     MFLAGCA,
+
+     MFLAGCAP,
+     MFLAGPROM,
+
+     NOMOVE,
+     FROMSQ,
+     CAPTURED,
+     TOSQ,
+     PROMOTED,
+
+ }

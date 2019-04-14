@@ -35,6 +35,12 @@ import {
     START_FEN
 
 } from './defs.js';
+import {
+    GenerateMoves
+} from './movegen.js';
+import {
+    PrintMoveList
+} from './io.js';
 
 
 //GUI part
@@ -66,6 +72,8 @@ function setUpValues() {
     console.log('ParseFen called with the preset fen string');
     PrintBoard();
     console.log('congrats finally trouble shooted, board is printed');
+    GenerateMoves();
+    PrintMoveList();
 }
 
 

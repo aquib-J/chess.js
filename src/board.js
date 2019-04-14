@@ -86,7 +86,7 @@ export function GeneratePosKey() {
 
     for (sq = 0; sq < BRD_SQ_NUM; ++sq) {
         piece = GameBoard.pieces[sq];
-        if (piece !== PIECES.EMPTY && piece !== SQUARES.OFFBOARD) {
+        if (piece != PIECES.EMPTY && piece != SQUARES.OFFBOARD) {
             finalKey ^= PieceKeys[(piece * 120) + sq];
         }
     }
@@ -95,7 +95,7 @@ export function GeneratePosKey() {
         finalKey ^= SideKey;
     }
 
-    if (GameBoard.enPas !== SQUARES.NO_SQ) {
+    if (GameBoard.enPas != SQUARES.NO_SQ) {
         finalKey ^= PieceKeys[GameBoard.enPas];
     }
 
@@ -131,7 +131,7 @@ export function UpdateListsMaterial() {
     for (index = 0; index < 64; ++index) {
         sq = SQ120(index);
         piece = GameBoard.pieces[sq];
-        if (piece !== PIECES.EMPTY) {
+        if (piece != PIECES.EMPTY) {
             // console.log('piece  ' + piece + ' on  ' + sq);
             colour = PieceCol[piece];
             GameBoard.material[colour] += PieceVal[piece];
@@ -308,7 +308,7 @@ function PrintSqAttacked() {
         let line = ((rank + 1) + " ");
         for (file = FILES.FILE_A; file <= FILES.FILE_H; file++) {
             sq = FR2SQ(file, rank);
-            if (SqAttacked(sq, GameBoard.side) === BOOL.TRUE) piece = "X";
+            if (SqAttacked(sq, GameBoard.side) == BOOL.TRUE) piece = "X";
             else piece = "-";
             line += (" " + piece + " ");
         }
@@ -317,14 +317,14 @@ function PrintSqAttacked() {
     console.log('');
 }
 
-function SqAttacked(sq, side) {
+export function SqAttacked(sq, side) {
     let pce, t_sq, index;
-    if (side === COLOURS.WHITE) {
-        if (GameBoard.pieces[sq - 11] === PIECES.wP || GameBoard.pieces[sq - 9] === PIECES.wP) {
+    if (side == COLOURS.WHITE) {
+        if (GameBoard.pieces[sq - 11] == PIECES.wP || GameBoard.pieces[sq - 9] == PIECES.wP) {
             return BOOL.TRUE;
         }
     } else {
-        if (GameBoard.pieces[sq + 11] === PIECES.bP || GameBoard.pieces[sq + 9] === PIECES.bP) {
+        if (GameBoard.pieces[sq + 11] == PIECES.bP || GameBoard.pieces[sq + 9] == PIECES.bP) {
             return BOOL.FALSE;
         }
 
@@ -333,7 +333,7 @@ function SqAttacked(sq, side) {
     //For Knight , 8 indexes or base points of attack
     for (index = 0; index < 8; index++) {
         pce = GameBoard.pieces[sq + KnDir[index]];
-        if (pce !== SQUARES.OFFBOARD && PieceCol[pce] === side && PieceKnight[pce] === BOOL.TRUE) {
+        if (pce != SQUARES.OFFBOARD && PieceCol[pce] == side && PieceKnight[pce] == BOOL.TRUE) {
             return BOOL.TRUE;
         }
     }
@@ -345,9 +345,9 @@ function SqAttacked(sq, side) {
         let dir = RkDir[index];
         t_sq = sq + dir;
         pce = GameBoard.pieces[t_sq];
-        while (pce !== SQUARES.OFFBOARD) {
-            if (pce !== PIECES.EMPTY) {
-                if (PieceRookQueen[pce] === BOOL.TRUE && PieceCol[pce] === side) {
+        while (pce != SQUARES.OFFBOARD) {
+            if (pce != PIECES.EMPTY) {
+                if (PieceRookQueen[pce] == BOOL.TRUE && PieceCol[pce] == side) {
                     return BOOL.TRUE;
                 }
                 break;
@@ -362,9 +362,9 @@ function SqAttacked(sq, side) {
         let dir = BiDir[index];
         t_sq = sq + dir;
         pce = GameBoard.pieces[t_sq];
-        while (pce !== SQUARES.OFFBOARD) {
-            if (pce !== PIECES.EMPTY) {
-                if (PieceBishopQueen[pce] === BOOL.TRUE && PieceCol[pce] === side) {
+        while (pce != SQUARES.OFFBOARD) {
+            if (pce != PIECES.EMPTY) {
+                if (PieceBishopQueen[pce] == BOOL.TRUE && PieceCol[pce] == side) {
                     return BOOL.TRUE;
                 }
                 break;
@@ -377,7 +377,7 @@ function SqAttacked(sq, side) {
     //For KING
     for (index = 0; index < 8; index++) {
         pce = GameBoard.pieces[sq + KiDir[index]];
-        if (pce !== SQUARES.OFFBOARD && PieceCol[pce] === side && PieceKing[pce] === BOOL.TRUE) {
+        if (pce != SQUARES.OFFBOARD && PieceCol[pce] == side && PieceKing[pce] == BOOL.TRUE) {
             return BOOL.TRUE;
         }
     }
