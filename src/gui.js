@@ -4,7 +4,14 @@ import {
 
 } from './board.js';
 import {
-    GameBoard
+    GameBoard,
+    FilesBrd,
+    RanksBrd,
+    SQ120,
+    PIECES,
+    SideChar,
+    PieceCol,
+    PceChar
 } from './defs.js'
 // import {
 //     FILES,
@@ -27,15 +34,47 @@ import {
 
 document.querySelector("#SetFen").addEventListener('click', (e) => {
 
-    let fenstr = document.querySelector("#fenIn").value;
+    var fenstr = document.querySelector("#fenIn").value;
 
     console.log(`${fenstr}`);
-    ParseFen(fenstr);
-    PrintBoard();
-    console.log('event working');
-    console.log(GameBoard);
+    NewGame(fenstr);
 
 });
+
+function NewGame(fenstr) {
+    ParseFen(fenstr);
+    PrintBoard();
+    setInitialBoardPieces();
+}
+
+function clearAllPieces() {
+    document.querySelector('.Piece').remove();
+}
+
+//for setting the Pieces images
+
+function setInitialBoardPieces() {
+    var sq, sq120, file, rank, rankName, fileName, image_src, image_classList, pce;
+    for (sq = 0; sq < 64; ++sq) {
+        sq120 = SQ120(sq);
+        pce = GameBoard.pieces[sq120];
+        file = FilesBrd[sq120];
+        rank = RanksBrd[sq120];
+
+        if (pce >= PIECES.wP && pce <= PIECES.bK) {
+            rankName = "rank" + (rank + 1);
+            fileName = "file" + (file + 1);
+            image_src = `./assets/${SideChar[PieceCol[pce]]}${PceChar[pce].toUpperCase()}.png`;
+            image_classList = `Piece ${rankName} ${fileName}`;
+            let img_node = document.createElement('img');
+            img_node.setAttribute("src", image_src);
+            img_node.setAttribute("class", image_classList);
+            document.querySelector("#Board").appendChild(img_node);
+        }
+
+
+    }
+}
 
 //JQUERY CODE
 // $('#SetFen').click(function () {

@@ -21,17 +21,17 @@ export function PrSq(sq) {
 }
 
 export function PrMove(move) {
-    let MvStr;
-    let ff = FilesBrd[FROMSQ(move)];
-    let rf = RanksBrd[FROMSQ(move)];
-    let ft = FilesBrd[TOSQ(move)];
-    let rt = RanksBrd[TOSQ(move)];
+    var MvStr;
+    var ff = FilesBrd[FROMSQ(move)];
+    var rf = RanksBrd[FROMSQ(move)];
+    var ft = FilesBrd[TOSQ(move)];
+    var rt = RanksBrd[TOSQ(move)];
 
     MvStr = FileChar[ff] + RankChar[rf] + FileChar[ft] + RankChar[rt];
-    let promoted = PROMOTED(move);
+    var promoted = PROMOTED(move);
 
     if (promoted != PIECES.EMPTY) {
-        let pchar = 'q';
+        var pchar = 'q';
         if (PieceKnight[promoted] == BOOL.TRUE) {
             pchar = 'n';
         } else if (PieceRookQueen[promoted] == BOOL.TRUE && PieceBishopQueen[promoted] == BOOL.FALSE) {
@@ -45,8 +45,8 @@ export function PrMove(move) {
 }
 
 export function PrintMoveList() {
-    let index;
-    let move;
+    var index;
+    var move;
     console.log('MoveList: ');
     for (index = GameBoard.moveListStart[GameBoard.ply]; index < GameBoard.moveListStart[GameBoard.ply + 1]; ++index) {
         move = GameBoard.moveList[index];

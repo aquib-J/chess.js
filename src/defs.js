@@ -1,4 +1,4 @@
- let PIECES = {
+ var PIECES = {
      EMPTY: 0,
      wP: 1,
      wN: 2,
@@ -15,9 +15,9 @@
  };
 
 
- let BRD_SQ_NUM = 120;
+ var BRD_SQ_NUM = 120;
 
- let FILES = {
+ var FILES = {
      FILE_A: 0,
      FILE_B: 1,
      FILE_C: 2,
@@ -28,7 +28,7 @@
      FILE_H: 7,
      FILE_NONE: 8
  };
- let RANKS = {
+ var RANKS = {
      RANK_1: 0,
      RANK_2: 1,
      RANK_3: 2,
@@ -40,19 +40,19 @@
      RANK_NONE: 8
  };
 
- let COLOURS = {
+ var COLOURS = {
      WHITE: 0,
      BLACK: 1,
      BOTH: 3
  };
- let CASTLEBIT = {
+ var CASTLEBIT = {
      WKCA: 1,
      WQCA: 2,
      BKCA: 4,
      BQCA: 8
  };
 
- let SQUARES = {
+ var SQUARES = {
      A1: 21,
      B1: 22,
      C1: 23,
@@ -73,31 +73,31 @@
      OFFBOARD: 100
  };
 
- let BOOL = {
+ var BOOL = {
      FALSE: 0,
      TRUE: 1
  };
  // values set before GAME Board Reset / FEN definition function is implemented
 
 
- let MAXGAMEMOVES = 2048;
- let MAXPOSITIONMOVES = 256;
- let MAXDEPTH = 64;
+ var MAXGAMEMOVES = 2048;
+ var MAXPOSITIONMOVES = 256;
+ var MAXDEPTH = 64;
 
 
 
 
- let FilesBrd = new Array(BRD_SQ_NUM);
- let RanksBrd = new Array(BRD_SQ_NUM);
+ var FilesBrd = new Array(BRD_SQ_NUM);
+ var RanksBrd = new Array(BRD_SQ_NUM);
 
 
  //set Initial position
- let START_FEN = 'r1bqkb1r/pppn1ppp/4pn2/3p4/2PP4/2N1PN2/PP3PPP/R1BQKB1R b - KQkq 0 4';
+ var START_FEN = 'r1bqkb1r/pppn1ppp/4pn2/3p4/2PP4/2N1PN2/PP3PPP/R1BQKB1R b - KQkq 0 4';
 
- let PceChar = '.PNBRQKpnbrqk';
- let SideChar = 'wb-';
- let RankChar = '12345678';
- let FileChar = 'abcdefgh';
+ var PceChar = '.PNBRQKpnbrqk';
+ var SideChar = 'wb-';
+ var RankChar = '12345678';
+ var FileChar = 'abcdefgh';
 
 
  function FR2SQ(f, r) {
@@ -105,43 +105,43 @@
  }
  //Empty:0 W(P N B R Q K) B(P N B R Q K)
  //all except pawn
- let PieceBig = [BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE];
+ var PieceBig = [BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE];
  //only Rook, Queen, King
- let PieceMaj = [BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE];
+ var PieceMaj = [BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE];
  //only Knight Bishop
- let PieceMin = [BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE];
- let PieceVal = [0, 100, 325, 325, 550, 1000, 50000, 100, 325, 325, 550, 1000, 50000];
- let PieceCol = [COLOURS.BOTH, COLOURS.WHITE, COLOURS.WHITE, COLOURS.WHITE, COLOURS.WHITE, COLOURS.WHITE, COLOURS.WHITE,
+ var PieceMin = [BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE];
+ var PieceVal = [0, 100, 325, 325, 550, 1000, 50000, 100, 325, 325, 550, 1000, 50000];
+ var PieceCol = [COLOURS.BOTH, COLOURS.WHITE, COLOURS.WHITE, COLOURS.WHITE, COLOURS.WHITE, COLOURS.WHITE, COLOURS.WHITE,
      COLOURS.BLACK, COLOURS.BLACK, COLOURS.BLACK, COLOURS.BLACK, COLOURS.BLACK, COLOURS.BLACK
  ];
 
- let PiecePawn = [BOOL.FALSE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE];
- let PieceKnight = [BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE];
- let PieceKing = [BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE];
- let PieceRookQueen = [BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.FALSE];
- let PieceBishopQueen = [BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.FALSE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.FALSE, BOOL.TRUE, BOOL.FALSE];
- let PieceSlides = [BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE, BOOL.FALSE];
+ var PiecePawn = [BOOL.FALSE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE];
+ var PieceKnight = [BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE];
+ var PieceKing = [BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE];
+ var PieceRookQueen = [BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.FALSE];
+ var PieceBishopQueen = [BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.FALSE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.FALSE, BOOL.TRUE, BOOL.FALSE];
+ var PieceSlides = [BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE, BOOL.FALSE];
 
  //defined for AttackedSquares
- let KnDir = [-8, -19, -21, -12, 8, 19, 21, 12];
- let RkDir = [-1, -10, 1, 10];
- let BiDir = [-9, -11, 11, 9];
- let KiDir = [-1, -10, 1, 10, -9, -11, 11, 9];
- let DirNum = [0, 0, 8, 4, 4, 8, 8, 0, 8, 4, 4, 8, 8]; // no of direction by piecetype. NIght has 8 direction, King and queen have 8 dir each
- let PceDir = [0, 0, KnDir, BiDir, RkDir, KiDir, KiDir, 0, KnDir, BiDir, RkDir, KiDir, KiDir];
- let LoopNonSlidePce = [PIECES.wN, PIECES.wK, 0, PIECES.bN, PIECES.bK, 0];
- let LoopNonSlideIndex = [0, 3];
+ var KnDir = [-8, -19, -21, -12, 8, 19, 21, 12];
+ var RkDir = [-1, -10, 1, 10];
+ var BiDir = [-9, -11, 11, 9];
+ var KiDir = [-1, -10, 1, 10, -9, -11, 11, 9];
+ var DirNum = [0, 0, 8, 4, 4, 8, 8, 0, 8, 4, 4, 8, 8]; // no of direction by piecetype. NIght has 8 direction, King and queen have 8 dir each
+ var PceDir = [0, 0, KnDir, BiDir, RkDir, KiDir, KiDir, 0, KnDir, BiDir, RkDir, KiDir, KiDir];
+ var LoopNonSlidePce = [PIECES.wN, PIECES.wK, 0, PIECES.bN, PIECES.bK, 0];
+ var LoopNonSlideIndex = [0, 3];
 
- let LoopSlidePce = [PIECES.wB, PIECES.wR, PIECES.wQ, 0, PIECES.bB, PIECES.bR, PIECES.bQ, 0];
- let LoopSlideIndex = [0, 4];
+ var LoopSlidePce = [PIECES.wB, PIECES.wR, PIECES.wQ, 0, PIECES.bB, PIECES.bR, PIECES.bQ, 0];
+ var LoopSlideIndex = [0, 4];
 
  //Keys for EXOR ing
- let PieceKeys = new Array(14 * 120);
- let SideKey;
- let CastleKeys = new Array(16);
+ var PieceKeys = new Array(14 * 120);
+ var SideKey;
+ var CastleKeys = new Array(16);
 
- let Sq120toSq64 = new Array(BRD_SQ_NUM);
- let Sq64toSq120 = new Array(64);
+ var Sq120toSq64 = new Array(BRD_SQ_NUM);
+ var Sq64toSq120 = new Array(64);
 
 
  function RAND_32() {
@@ -159,6 +159,22 @@
  function PCEINDEX(pce, pceNum) {
      return (pce * 10 + pceNum);
  }
+
+ var Kings = [PIECES.wK, PIECES.bK];
+ var CastlePerm = [
+     15, 15, 15, 15, 15, 15, 15, 15, 15, 15,
+     15, 15, 15, 15, 15, 15, 15, 15, 15, 15,
+     15, 13, 15, 15, 15, 12, 15, 15, 14, 15,
+     15, 15, 15, 15, 15, 15, 15, 15, 15, 15,
+     15, 15, 15, 15, 15, 15, 15, 15, 15, 15,
+     15, 15, 15, 15, 15, 15, 15, 15, 15, 15,
+     15, 15, 15, 15, 15, 15, 15, 15, 15, 15,
+     15, 15, 15, 15, 15, 15, 15, 15, 15, 15,
+     15, 15, 15, 15, 15, 15, 15, 15, 15, 15,
+     15, 7, 15, 15, 15, 3, 15, 15, 11, 15,
+     15, 15, 15, 15, 15, 15, 15, 15, 15, 15,
+     15, 15, 15, 15, 15, 15, 15, 15, 15, 15
+ ];
  //Movegen 28 bit binary sequence keeping track of things
  /* 
     0000 0000 0000 0000 0000 0111 1111 -> From 0x7F
@@ -188,16 +204,16 @@
  }
 
 
- let MFLAGEP = 0x40000;
- let MFLAGPS = 0x80000;
- let MFLAGCA = 0x1000000;
+ var MFLAGEP = 0x40000;
+ var MFLAGPS = 0x80000;
+ var MFLAGCA = 0x1000000;
 
 
  //for quick comparision
- let MFLAGCAP = 0x7C; // captured + enpassant
- let MFLAGPROM = 0xF00000;
+ var MFLAGCAP = 0x7C; // captured + enpassant
+ var MFLAGPROM = 0xF00000;
 
- let NOMOVE = 0;
+ var NOMOVE = 0;
 
 
  function SQOFFBOARD(sq) {
@@ -205,10 +221,29 @@
      return BOOL.FALSE;
  }
 
+ // utility functions for the Gen Pos key() Hashing Function
+ function HASH_PCE(pce, sq) {
+     GameBoard.posKey ^= PieceKeys[(pce * 120) + sq];
+ }
+
+ function HASH_CA() {
+     GameBoard.posKey ^= CastleKeys[GameBoard.CastlePerm];
+ }
+
+ function HASH_SIDE() {
+     GameBoard.posKey ^= SideKey;
+ }
+
+ function HASH_EP() {
+     GameBoard.posKey ^= PieceKeys[GameBoard.enPas];
+
+ }
 
 
 
- let GameBoard = {};
+
+
+ var GameBoard = {};
 
 
  GameBoard.pieces = new Array(BRD_SQ_NUM);
@@ -216,8 +251,10 @@
  GameBoard.fiftyMove = 0;
  //hisply is fullmoves
  GameBoard.hisPly = 0;
+ GameBoard.history = [];
  //ply is half moves
  GameBoard.ply = 0;
+
  GameBoard.enPas = 0; //en passant
  GameBoard.CastlePerm = 0;
  GameBoard.material = new Array(2); //WHITE,BLACK MATERIAL OF PIECES
@@ -249,6 +286,7 @@
      COLOURS,
      MAXDEPTH,
      MAXPOSITIONMOVES,
+     MAXGAMEMOVES,
      SQUARES,
      PIECES,
      RANKS,

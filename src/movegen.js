@@ -95,7 +95,7 @@ export function GenerateMoves() {
 
     GameBoard.moveListStart[GameBoard.ply + 1] = GameBoard.moveListStart[GameBoard.ply];
 
-    let pceType, pceNum, sq, pceIndex, pce, t_sq, dir, index;
+    var pceType, pceNum, sq, pceIndex, pce, t_sq, dir, index;
 
     if (GameBoard.side == COLOURS.WHITE) {
         pceType = PIECES.wP;

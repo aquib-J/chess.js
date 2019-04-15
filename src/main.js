@@ -16,6 +16,7 @@
 import {
     PrintBoard,
     ParseFen,
+    CheckBoard
 
 }
 from './board.js';
@@ -32,7 +33,11 @@ import {
     CastleKeys,
     Sq120toSq64,
     Sq64toSq120,
-    START_FEN
+    START_FEN,
+    MAXGAMEMOVES,
+    GameBoard,
+    NOMOVE,
+
 
 } from './defs.js';
 import {
@@ -41,12 +46,15 @@ import {
 import {
     PrintMoveList
 } from './io.js';
+import {
+    PerftTest
+} from './perft.js';
 
 
 //GUI part
 
 
-// let fenstr = document.getElementById('fenIn').value;
+//var fenstr = document.getElementById('fenIn').value;
 
 // document.getElementById('SetFen').addEventListener('click', (e) => {
 //     e.preventDefault();
@@ -68,12 +76,17 @@ function setUpValues() {
     console.log('hash keys set');
     InitSq120To64();
     console.log('function for swapping 64-120 initialized');
+    InitBoardVars();
+    InitBoardSquares();
     ParseFen(START_FEN);
     console.log('ParseFen called with the preset fen string');
     PrintBoard();
     console.log('congrats finally trouble shooted, board is printed');
-    GenerateMoves();
-    PrintMoveList();
+    PerftTest(2);
+    // GenerateMoves();
+    // PrintMoveList();
+    // //Integrity of the Board is intact if CheckBoard doesnt generate any errors
+    // CheckBoard();
 }
 
 
@@ -89,10 +102,10 @@ document.addEventListener('DOMContentLoaded', setUpValues);
 //with 0-7 respectively
 
 function InitFilesRanksBrd() {
-    let index = 0;
-    let file = FILES.FILE_A;
-    let rank = RANKS.RANK_1;
-    let sq = SQUARES.A1;
+    var index = 0;
+    var file = FILES.FILE_A;
+    var rank = RANKS.RANK_1;
+    var sq = SQUARES.A1;
     for (index = 0; index < BRD_SQ_NUM; index++) {
         FilesBrd[index] = SQUARES.OFFBOARD;
         RanksBrd[index] = SQUARES.OFFBOARD;
@@ -113,11 +126,11 @@ function InitFilesRanksBrd() {
 
 // Chain of Exor generating the unique posKey
 function InitHashKeys() {
-    let index = 0;
+    var index = 0;
     for (index = 0; index < 14 * 120; ++index) {
         PieceKeys[index] = RAND_32();
     }
-    let SideKey = RAND_32();
+    var SideKey = RAND_32();
     for (index = 0; index < 16; ++index) {
         CastleKeys[index] = RAND_32();
     }
@@ -126,11 +139,11 @@ function InitHashKeys() {
 
 function InitSq120To64() {
 
-    let index = 0;
-    let file = FILES.FILE_A;
-    let rank = RANKS.RANK_1;
-    let sq = SQUARES.A1;
-    let sq64 = 0;
+    var index = 0;
+    var file = FILES.FILE_A;
+    var rank = RANKS.RANK_1;
+    var sq = SQUARES.A1;
+    var sq64 = 0;
 
     //Reset all the 120 squares to the value 65
     for (index = 0; index < BRD_SQ_NUM; index++) {
@@ -153,4 +166,46 @@ function InitSq120To64() {
 
 
 
+}
+
+function InitBoardVars() {
+    var index = 0;
+    for (index = 0; index < MAXGAMEMOVES; ++index) {
+        GameBoard.history.push({
+            move: NOMOVE,
+            castlePerm: 0,
+            enPas: 0,
+            fiftyMove: 0,
+            posKey: 0
+        });
+    }
+}
+
+//Gui set up function // Use the CSS variables
+function InitBoardSquares() {
+
+    var light = 1;
+    var rankName;
+    var fileName;
+    var divString;
+    var rankIter;
+    var fileIter;
+    var lightString;
+    for (rankIter = RANKS.RANK_8; rankIter >= RANKS.RANK_1; rankIter--) {
+        light ^= 1;
+        rankName = "rank" + (rankIter + 1);
+        for (fileIter = FILES.FILE_A; fileIter <= FILES.FILE_H; ++fileIter) {
+            fileName = "file" + (fileIter + 1);
+            if (light == 0) lightString = "Light";
+            else lightString = "Dark";
+            light ^= 1;
+
+            let classstring = `Square ${rankName} ${fileName} ${lightString}`;
+
+            let child_div = document.createElement('div');
+            child_div.setAttribute("class", classstring);
+            document.querySelector("#Board").appendChild(child_div);
+        }
+
+    }
 }

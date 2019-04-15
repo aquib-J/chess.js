@@ -40,11 +40,59 @@ import {
     PrSq
 } from './io.js';
 
+
+// function for error checking
+export function CheckBoard() {
+    var t_pceNum = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    var t_material = [0, 0];
+    var sq64, t_piece, t_pce_num, sq120, colour, pcount;
+    for (t_piece = PIECES.wP; t_piece <= PIECES.bK; ++t_piece) {
+        for (t_pce_num = 0; t_pce_num < GameBoard.pceNum[t_piece]; ++t_pce_num) {
+            sq120 = GameBoard.pList[PCEINDEX(t_piece, t_pce_num)];
+            if (GameBoard.pieces[sq120] != t_piece) {
+                console.log('Error Pce Lists');
+                return BOOL.FALSE;
+            }
+        }
+    }
+    for (sq64 = 0; sq64 < 64; ++sq64) {
+        sq120 = SQ120(sq64);
+        t_piece = GameBoard.pieces[sq120];
+        t_pceNum[t_piece]++;
+        t_material[PieceCol[t_piece]] += PieceVal[t_piece];
+    }
+    for (t_piece = PIECES.wP; t_piece < PIECES.bK; ++t_piece) {
+        if (t_pceNum[t_piece] != GameBoard.pceNum[t_piece]) {
+            console.log('Error t_pceNum');
+            return BOOL.FALSE;
+        }
+    }
+
+    if (t_material[COLOURS.WHITE] != GameBoard.material[COLOURS.WHITE] || t_material[COLOURS.BLACK] != GameBoard.material[COLOURS.BLACK]) {
+        console.log('Error T_material');
+        return BOOL.FALSE;
+    }
+    if (GameBoard.side != COLOURS.WHITE && GameBoard.side != COLOURS.BLACK) {
+        console.log('error GameBoard.side');
+        return BOOL.FALSE;
+    }
+    if (GeneratePosKey() != GameBoard.posKey) {
+        console.log('Error GameBoard.poskey');
+        return BOOL.FALSE;
+    }
+    return BOOL.TRUE;
+
+}
+
+
+
+
+
 export function PrintBoard() {
-    let sq, file, rank, piece;
+    var sq, file, rank, piece;
     console.log('\nGame Board:\n\n');
     for (rank = RANKS.RANK_8; rank >= RANKS.RANK_1; rank--) {
-        let line = (RankChar[rank] + '  ');
+        var line = (RankChar[rank] + '  ');
         for (file = FILES.FILE_A; file <= FILES.FILE_H; file++) {
             sq = FR2SQ(file, rank);
             piece = GameBoard.pieces[sq];
@@ -53,7 +101,7 @@ export function PrintBoard() {
         console.log(line);
     }
     console.log('');
-    let line = "  ";
+    var line = "  ";
     for (file = FILES.FILE_A; file <= FILES.FILE_H; file++) {
         line += (' ' + FileChar[file] + ' ');
     }
@@ -80,9 +128,9 @@ export function PrintBoard() {
 
 export function GeneratePosKey() {
 
-    let sq = 0;
-    let finalKey = 0;
-    let piece = PIECES.EMPTY;
+    var sq = 0;
+    var finalKey = 0;
+    var piece = PIECES.EMPTY;
 
     for (sq = 0; sq < BRD_SQ_NUM; ++sq) {
         piece = GameBoard.pieces[sq];
@@ -107,7 +155,7 @@ export function GeneratePosKey() {
 //print pieceLists in algebraic notation
 
 function PrintPieceLists() {
-    let piece, pceNum;
+    var piece, pceNum;
     for (piece = PIECES.wP; piece <= PIECES.bK; ++piece) {
         for (pceNum = 0; pceNum < GameBoard.pceNum[piece]; ++pceNum) {
             console.log(' piece ' + PceChar[piece] + ' on ' + PrSq(GameBoard.pList[PCEINDEX(piece, pceNum)]));
@@ -117,7 +165,7 @@ function PrintPieceLists() {
 
 // UPDATES GLOBAL PIECELIST ARRAY WHICH HOLDS, AS MANY PIECES OF EACHTYPE
 export function UpdateListsMaterial() {
-    let piece, sq, index, colour;
+    var piece, sq, index, colour;
     for (index = 0; index < 14 * 120; ++index) {
         GameBoard.pList[index] = PIECES.EMPTY;
     }
@@ -145,7 +193,7 @@ export function UpdateListsMaterial() {
 
 export function ResetBoard() {
 
-    let index = 0;
+    var index = 0;
     for (index = 0; index < BRD_SQ_NUM; ++index) {
         GameBoard.pieces[index] = SQUARES.OFFBOARD;
     }
@@ -170,13 +218,13 @@ export function ResetBoard() {
 export function ParseFen(fen) {
     ResetBoard();
 
-    let rank = RANKS.RANK_8;
-    let file = FILES.FILE_A;
-    let piece = 0;
-    let count = 0;
-    let i = 0;
-    let sq120 = 0;
-    let fenCnt = 0; // fen[fenCnt]
+    var rank = RANKS.RANK_8;
+    var file = FILES.FILE_A;
+    var piece = 0;
+    var count = 0;
+    var i = 0;
+    var sq120 = 0;
+    var fenCnt = 0; // fen[fenCnt]
 
     while ((rank >= RANKS.RANK_1) && (fenCnt < fen.length)) {
         count = 1;
@@ -283,10 +331,10 @@ export function ParseFen(fen) {
     console.log(file, rank, fenCnt, fen, fen[fenCnt]);
 
     if (fen[fenCnt] != '-') {
-        let num1 = fen[fenCnt].charCodeAt();
-        let num2 = 'a'.charCodeAt();
-        let num3 = fen[fenCnt + 1].charCodeAt();
-        let num4 = '0'.charCodeAt();
+        var num1 = fen[fenCnt].charCodeAt();
+        var num2 = 'a'.charCodeAt();
+        var num3 = fen[fenCnt + 1].charCodeAt();
+        var num4 = '0'.charCodeAt();
         file = num1 - num2;
         rank = num3 - num4;
 
@@ -302,10 +350,10 @@ export function ParseFen(fen) {
 // Printing the Square Attacked
 //Useless Functions
 function PrintSqAttacked() {
-    let sq, file, rank, piece;
+    var sq, file, rank, piece;
     console.log('\n Attacked: \n');
     for (rank = RANKS.RANK_8; rank >= RANKS.RANK_1; rank++) {
-        let line = ((rank + 1) + " ");
+        var line = ((rank + 1) + " ");
         for (file = FILES.FILE_A; file <= FILES.FILE_H; file++) {
             sq = FR2SQ(file, rank);
             if (SqAttacked(sq, GameBoard.side) == BOOL.TRUE) piece = "X";
@@ -318,7 +366,7 @@ function PrintSqAttacked() {
 }
 
 export function SqAttacked(sq, side) {
-    let pce, t_sq, index;
+    var pce, t_sq, index;
     if (side == COLOURS.WHITE) {
         if (GameBoard.pieces[sq - 11] == PIECES.wP || GameBoard.pieces[sq - 9] == PIECES.wP) {
             return BOOL.TRUE;
@@ -342,7 +390,7 @@ export function SqAttacked(sq, side) {
     // FOR ROOKS 
 
     for (index = 0; index < 4; ++index) {
-        let dir = RkDir[index];
+        var dir = RkDir[index];
         t_sq = sq + dir;
         pce = GameBoard.pieces[t_sq];
         while (pce != SQUARES.OFFBOARD) {
@@ -359,7 +407,7 @@ export function SqAttacked(sq, side) {
     }
     //For Bishops
     for (index = 0; index < 4; ++index) {
-        let dir = BiDir[index];
+        var dir = BiDir[index];
         t_sq = sq + dir;
         pce = GameBoard.pieces[t_sq];
         while (pce != SQUARES.OFFBOARD) {
