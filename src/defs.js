@@ -43,7 +43,7 @@
  var COLOURS = {
      WHITE: 0,
      BLACK: 1,
-     BOTH: 3
+     BOTH: 2
  };
  var CASTLEBIT = {
      WKCA: 1,
@@ -92,7 +92,7 @@
 
 
  //set Initial position
- var START_FEN = 'r1bqkb1r/pppn1ppp/4pn2/3p4/2PP4/2N1PN2/PP3PPP/R1BQKB1R b - KQkq 0 4';
+ var START_FEN = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w - KQkq 0 0';
 
  var PceChar = '.PNBRQKpnbrqk';
  var SideChar = 'wb-';
@@ -101,7 +101,7 @@
 
 
  function FR2SQ(f, r) {
-     return ((f + 21) + ((r) * 10));
+     return (((f) + 21) + ((r) * 10));
  }
  //Empty:0 W(P N B R Q K) B(P N B R Q K)
  //all except pawn

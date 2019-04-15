@@ -41,7 +41,7 @@ document.querySelector("#SetFen").addEventListener('click', (e) => {
 
 });
 
-function NewGame(fenstr) {
+export function NewGame(fenstr) {
     ParseFen(fenstr);
     PrintBoard();
     setInitialBoardPieces();

@@ -49,6 +49,9 @@ import {
 import {
     PerftTest
 } from './perft.js';
+import {
+    NewGame
+} from './gui.js';
 
 
 //GUI part
@@ -77,12 +80,15 @@ function setUpValues() {
     InitSq120To64();
     console.log('function for swapping 64-120 initialized');
     InitBoardVars();
+    //Sets the CHECK pattern / board colour
     InitBoardSquares();
-    ParseFen(START_FEN);
-    console.log('ParseFen called with the preset fen string');
-    PrintBoard();
-    console.log('congrats finally trouble shooted, board is printed');
-    PerftTest(2);
+    NewGame(START_FEN);
+
+    // ParseFen(START_FEN);
+    // console.log('ParseFen called with the preset fen string');
+    // PrintBoard();
+    // console.log('congrats finally trouble shooted, board is printed');
+    // PerftTest(2);
     // GenerateMoves();
     // PrintMoveList();
     // //Integrity of the Board is intact if CheckBoard doesnt generate any errors
@@ -106,13 +112,13 @@ function InitFilesRanksBrd() {
     var file = FILES.FILE_A;
     var rank = RANKS.RANK_1;
     var sq = SQUARES.A1;
-    for (index = 0; index < BRD_SQ_NUM; index++) {
+    for (index = 0; index < BRD_SQ_NUM; ++index) {
         FilesBrd[index] = SQUARES.OFFBOARD;
         RanksBrd[index] = SQUARES.OFFBOARD;
     }
 
-    for (rank; rank <= RANKS.RANK_8; rank++) {
-        for (file; file <= FILES.FILE_H; file++) {
+    for (rank = RANKS.RANK_1; rank <= RANKS.RANK_8; ++rank) {
+        for (file = FILES.FILE_A; file <= FILES.FILE_H; ++file) {
             sq = FR2SQ(file, rank);
             FilesBrd[sq] = file;
             RanksBrd[sq] = rank;
@@ -181,7 +187,7 @@ function InitBoardVars() {
     }
 }
 
-//Gui set up function // Use the CSS variables
+//Gui set up function // Use the CSS variables to print the board colour
 function InitBoardSquares() {
 
     var light = 1;
