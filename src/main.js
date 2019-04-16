@@ -37,6 +37,7 @@ import {
     MAXGAMEMOVES,
     GameBoard,
     NOMOVE,
+    SideKey,
 
 
 } from './defs.js';
@@ -54,21 +55,7 @@ import {
 } from './gui.js';
 
 
-//GUI part
 
-
-//var fenstr = document.getElementById('fenIn').value;
-
-// document.getElementById('SetFen').addEventListener('click', (e) => {
-//     e.preventDefault();
-
-//     console.log(`${fenstr}`);
-//     ParseFen(fenstr);
-//     PrintBoard();
-//     console.log('event working');
-
-// });
-///////////////////////////
 
 // Plain js for dom manipulation
 function setUpValues() {
@@ -105,7 +92,7 @@ document.addEventListener('DOMContentLoaded', setUpValues);
 
 // intitializes both the files-120 squares and the ranks-120 squares
 //the first loops, sets all the squares to =100(OFFBOARD), 2nd loop fills it 
-//with 0-7 respectively
+//with 21-28,31-38,81-88,91-98 and the inner boards with their numbers resp 
 
 function InitFilesRanksBrd() {
     var index = 0;
@@ -193,7 +180,7 @@ function InitBoardSquares() {
     var light = 1;
     var rankName;
     var fileName;
-    var divString;
+
     var rankIter;
     var fileIter;
     var lightString;

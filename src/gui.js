@@ -48,13 +48,19 @@ export function NewGame(fenstr) {
 }
 
 function clearAllPieces() {
-    document.querySelector('.Piece').remove();
+    var selector = document.querySelector("#Board").getElementsByTagName('img');
+    selector.forEach((item) => {
+        console.log(item.id)
+    });
+    console.log(selector);
+
 }
 
 //for setting the Pieces images
 
 function setInitialBoardPieces() {
     var sq, sq120, file, rank, rankName, fileName, image_src, image_classList, pce;
+    // clearAllPieces();
     for (sq = 0; sq < 64; ++sq) {
         sq120 = SQ120(sq);
         pce = GameBoard.pieces[sq120];
