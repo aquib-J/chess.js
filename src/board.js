@@ -108,12 +108,14 @@ export function PrintBoard() {
     console.log(line);
     console.log('side:' + SideChar[GameBoard.side]);
     console.log('enPass:' + GameBoard.enPas);
+    // console.log(GameBoard.CastlePerm);
     line = "";
     if (GameBoard.CastlePerm & CASTLEBIT.WKCA) line += 'K';
     if (GameBoard.CastlePerm & CASTLEBIT.WQCA) line += 'Q';
     if (GameBoard.CastlePerm & CASTLEBIT.BKCA) line += 'k';
     if (GameBoard.CastlePerm & CASTLEBIT.BQCA) line += 'q';
     console.log('castle:' + line);
+
     console.log('key:' + GameBoard.posKey.toString(16));
 
 

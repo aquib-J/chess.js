@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Chess_Rewrite</title>
+    <link rel="stylesheet" href="./styles/styles.css">
+</head>
+
+<body>
+    <header>
+        <h3 class="top-heading">Let's play Chess</h3>
+    </header>
+    <div id="FenInDiv">
+        Fen:<br />
+        <input type="text" id="fenIn" value='rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'>
+        <button type="button" id="SetFen">Set Position</button>
+    </div>
+    <script src="./src/jquery-1.10.1.min.js"></script>
+    <script src="./src/rewrite-Chess_Engine.js"></script>
+</body>
+
+</html>

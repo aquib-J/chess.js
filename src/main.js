@@ -38,6 +38,7 @@ import {
     GameBoard,
     NOMOVE,
     SideKey,
+    PVENTRIES,
 
 
 } from './defs.js';
@@ -123,7 +124,7 @@ function InitHashKeys() {
     for (index = 0; index < 14 * 120; ++index) {
         PieceKeys[index] = RAND_32();
     }
-    var SideKey = RAND_32();
+    window.SideKey = RAND_32();
     for (index = 0; index < 16; ++index) {
         CastleKeys[index] = RAND_32();
     }
@@ -169,6 +170,13 @@ function InitBoardVars() {
             castlePerm: 0,
             enPas: 0,
             fiftyMove: 0,
+            posKey: 0
+        });
+    }
+
+    for (index = 0; index < PVENTRIES; ++index) {
+        GameBoard.PvTable.push({
+            move: NOMOVE,
             posKey: 0
         });
     }
